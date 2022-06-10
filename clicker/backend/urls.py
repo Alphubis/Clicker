@@ -8,7 +8,7 @@ boosts_list = views.BoostViewSet.as_view({
 })
 
 boosts_details = views.BoostViewSet.as_view({
-    'put': 'update',
+    'put': 'partial_update',
 })
 
 urlpatterns = [
