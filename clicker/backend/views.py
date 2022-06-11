@@ -17,18 +17,29 @@ def index(request):
     boosts = Boost.objects.filter(core=core)
     return render(request, 'index.html', {'core': core, 'boosts': boosts})
 
+
 @api_view(['GET'])
-def call_click(request):
+def get_core(request):
     core = Core.objects.get(user=request.user)
-    is_levelup, boost_type = core.click()
-    if is_levelup:
-        Boost.objects.create(
-            core=core, price=core.coins, power = core.level*5, type = boost_type,
-        )
-    core.save()
     return Response({
-    'core': CoreSerializer(core).data,
-    'is_levelup': is_levelup })
+        'core': CoreSerializer(core).data,
+        })
+
+
+@api_view(['POST'])
+def update_coins(request):
+    coins = request.data['current_coins']
+    core = Core.objects.get(user=request.user)
+    is_levelup, boost_type = core.update_coins(coins)
+
+    if is_levelup:
+        Boost.objects.create(core=core, price=core.coins, power=core.level*2, type=boost_type)
+    core.save()
+
+    return Response({
+        'core': CoreSerializer(core).data,
+        'is_levelup': is_levelup,
+    })
 
 
 class BoostViewSet(viewsets.ModelViewSet):
@@ -41,8 +52,9 @@ class BoostViewSet(viewsets.ModelViewSet):
         return boosts
 
     def partial_update(self, request, pk):
+        coins = request.data['coins']
         boost = self.queryset.get(pk=pk)
-        levelup = boost.levelup()
+        levelup = boost.levelup(coins)
         if not levelup:
             return Response({'error':'Nedostato4no monetok'})
         old_boost_values, new_boost_values = levelup

@@ -8,16 +8,16 @@ class Core(models.Model):
     user = models.OneToOneField(User, null=False, on_delete=models.CASCADE)
     coins = models.IntegerField(default=0)
     click_power = models.IntegerField(default=1)
-    auto_click_power = models.IntegerField(default=0)
+    auto_click_power = models.IntegerField(default=1)
     level = models.IntegerField(default=0)
 
-    def click(self, commit=True):
-        self.coins += self.click_power
+    def update_coins(self, coins, commit = True):
+        self.coins = coins
         is_levelupdated = self.is_levelup()
         boost_type = 0
         if is_levelupdated:
             self.level += 1
-            if self.level % 5 == 0:
+            if self.level % 3 == 0:
                 boost_type = 1
         if commit:
             self.save()
@@ -26,6 +26,9 @@ class Core(models.Model):
 
     def is_levelup(self):
         return self.coins >= (self.level**2)*100*(self.level+1)
+
+    def calculate_next_level(self):
+        return (self.level**2)*100*(self.level+1)
 
 class Boost(models.Model):
     core = models.ForeignKey(Core, null=False, on_delete=models.CASCADE)
@@ -36,8 +39,8 @@ class Boost(models.Model):
     default = 0, choices = BOOST_TYPE_CHOOICES,
     )
 
-    def levelup(self):
-        if self.core.coins < self.price:
+    def levelup(self, coins):
+        if coins < self.price:
             return False
 
         self.core.coins -= self.price
