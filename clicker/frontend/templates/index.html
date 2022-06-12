@@ -2,21 +2,24 @@
 {% load static %}
 {% block body %}
 <body>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Prata&display=swap');
+  </style>
     <main class="app" align="center">
         <nav class="nav">
-            Привет, {{ user.username }}
+            Приветствую тебя, {{ user.username }}!
             <a href="{% url 'logout' %}">Выйти</a>
         </nav>
 
         <div class="container">
             <div id='coins'>{{core.coins}}</div>
-            <button onclick="call_click()">Нажми меня</button>
-            <p>
-                Невероятная мощь клика: <span id="click_power">{{ core.click_power }}</span>
-            </p>
-            <p>
-                Невероятная мощь автоклика: <span id="auto_click_power">{{ core.auto_click_power }}</span>
-            </p>
+            <image height="50%" src="{% static 'img/Fish.jpg' %}" onclick="call_click()">
+            <h3>
+                Рыбок за клик: <span id="click_power">{{ core.click_power }}</span>
+            </h3>
+            <h3>
+                Авторыбки: <span id="auto_click_power">{{ core.auto_click_power }}</span>
+            </h3>
         </div>
 
         <aside class="boosts" id="boosts">
@@ -31,6 +34,7 @@
                 {% endfor %}
             </div>
         </aside>
+        <image class="catgirl" src="{% static 'img/CatGirl.jpg' %}">
     </main>
 </body>
 {% endblock %}

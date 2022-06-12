@@ -1,0 +1,42 @@
+body {
+  background-color: #f2f7f;
+}
+p {
+  font-family: 'Prata', serif;
+  font-size: 24px;
+  color: #594a4e;
+}
+h3 {
+  font-family: 'Prata', serif;
+  font-size: 24px;
+  color: #594a4e;
+}
+.container {
+  font-family: 'Prata', serif;
+  font-size: 100px;
+  color: #594a4e;
+}
+
+.boost_0 {
+  background-color: #F5CAC9;
+  border-color: #75615F;
+}
+
+.boost_1 {
+  background-color: #BF9D9C;
+  border-color: #75615F;
+}
+
+.catgirl{
+  position: absolute;
+  left: 0%;
+  bottom: 0%;
+  z-index: -1;
+}
+
+.nav {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  position: absolute;
+  left: 0%;
+}

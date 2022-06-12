@@ -54,7 +54,7 @@ class Boost(models.Model):
         self.level += 1
         self.power *= 2
         self.price \
-            *= self.price * BOOST_TYPE_VALUES[self.type]['price_scale']
+            += self.price * BOOST_TYPE_VALUES[self.type]['price_scale']
         self.save()
 
         return old_boost_values, self
